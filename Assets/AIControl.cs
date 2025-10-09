@@ -9,7 +9,7 @@ public class AIControl : MonoBehaviour {
     NavMeshAgent agent;
     Animator anim;
     float sMul;
-    float detectionRadius = 5;
+    float detectionRadius = 20;
     float fleeRadius = 10;
 
 
@@ -26,7 +26,7 @@ public class AIControl : MonoBehaviour {
 
     void ResetAgent()
     {
-        sMul = Random.Range(0.5f, 2);
+        sMul = Random.Range(0.1f, 1.5f);
         anim.SetFloat("sMul", sMul);
         agent.speed *= sMul;
         anim.SetTrigger("isWalking");
@@ -58,6 +58,7 @@ public class AIControl : MonoBehaviour {
     void Update() {
         if (agent.remainingDistance < 1)
         {
+            ResetAgent();
             int i = Random.Range(0, goalLocations.Length);
             agent.SetDestination(goalLocations[i].transform.position);
         }
