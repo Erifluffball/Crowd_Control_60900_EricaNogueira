@@ -8,6 +8,10 @@ public class AIControl : MonoBehaviour {
     GameObject[] goalLocations;
     NavMeshAgent agent;
     Animator anim;
+    float sMul;
+    float detectionRadius = 5;
+    float fleeRadius = 10;
+
 
     void Start() {
 
@@ -16,11 +20,38 @@ public class AIControl : MonoBehaviour {
         int i = Random.Range(0, goalLocations.Length);
         agent.SetDestination(goalLocations[i].transform.position);
         anim = GetComponent<Animator>();
-        anim.SetTrigger("isWalking");
         anim.SetFloat("wOffset", Random.Range(0f,1f));
-        float sm = Random.Range(0.5f, 2f);
-        anim.SetFloat("sMul", sm);
-        agent.speed *= sm;
+        ResetAgent();
+    }
+
+    void ResetAgent()
+    {
+        sMul = Random.Range(0.5f, 2);
+        anim.SetFloat("sMul", sMul);
+        agent.speed *= sMul;
+        anim.SetTrigger("isWalking");
+        agent.angularSpeed = 120;
+        agent.ResetPath();
+    }
+
+    public void DetectNewObstacle(Vector3 position)
+    {
+        if (Vector3.Distance(position, this.transform.position) < detectionRadius)
+        {
+            Vector3 fleeDirection = (this.transform.position - position).normalized;
+            Vector3 newgoal = this.transform.position + fleeDirection * fleeRadius;
+
+            NavMeshPath path = new NavMeshPath();
+            agent.CalculatePath(newgoal, path);
+
+            if (path.status != NavMeshPathStatus.PathInvalid)
+            {
+                agent.SetDestination(path.corners[path.corners.Length -1]);
+                anim.SetTrigger("isRunning");
+                agent.speed = 10;
+                agent.angularSpeed = 500;
+            }
+        }
     }
 
 
