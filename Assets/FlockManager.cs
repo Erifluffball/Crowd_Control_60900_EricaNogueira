@@ -9,16 +9,17 @@ public class FlockManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        allFish = new GameObject [numFish];
-        for(int i=0; i < numFish; i++)
+        allFish = new GameObject[numFish];
+        for (int i = 0; i < numFish; i++)
         {
-            Vector 3 pos = this.transform.position + new Vector3(Random.Range(-swimLimits.x, swimLimits.x));
-                                                                (Random.Range(-swimLimits.y, swimLimits.y));
-                                                                (Random.Range(-swimLimits.z, swimLimits.z));
-            allFish[i] = Instantiate(fishPrefab, pos, Quaternion.identity);
+            Vector3 pos = this.transform.position + new Vector3(
+                Random.Range(-swimLimits.x, swimLimits.x),
+                Random.Range(-swimLimits.y, swimLimits.y),
+                Random.Range(-swimLimits.z, swimLimits.z)
+            );
 
+            allFish[i] = Instantiate(fishPrefab, pos, Quaternion.identity);
         }
-        
     }
 
     // Update is called once per frame
