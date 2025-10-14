@@ -12,6 +12,10 @@ public class FlockManager : MonoBehaviour
     public float minSpeed;
     [Range(0.0f,5.0f)]
     public float maxSpeed;
+    [Range(1.0f,10.0f)]
+    public float neighborDistance;
+    [Range(1.0f,5.0f)]
+    public float rotationSpeed;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
